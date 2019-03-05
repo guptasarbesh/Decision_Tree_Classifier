@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 #from sklearn import datasets
 file1=pd.read_csv('D:\SEMESTER VI\MACHINE LEARNNING FOUNDATION CODES\dermatology.csv',sep=',')
@@ -7,9 +8,10 @@ print(file1.head())
 print(file1.tail())
 print(file1.columns)
 print(file1.index)
-print(file1.erythema)
-print(file1.scaling)
-print(type(file1))
+#print(file1.erythema)
+#print(file1.scaling)
+print(type(file1))  
+print(file1.shape)
 import matplotlib.pyplot as plt
 file1.plot()
 plt.show()
@@ -36,9 +38,9 @@ col_name=['erythema', 'scaling', 'definite_borders', 'itching',
 file1.columns=col_name
 print(file1.head())
 
-file1=file1.astype(float)
-print("Object arec changed into numeric")
-print(file1.dtypes)
+#file1=file1.astype(float)
+#print("Object are changed into numeric")
+#print(file1.dtypes)
 
 file1.fillna(file1.median(),inplace=True)
 print(file1.head(20))
@@ -65,3 +67,13 @@ print('misclassified samples:%d'%(y_test!=y_pred).sum())
 from sklearn.metrics import accuracy_score
 print('Accuracy %.2f'%accuracy_score(y_test,y_pred))
 
+##
+from sklearn.model_selection import GridSearchCV
+from sklearn.tree import DecisionTreeClassifier
+
+param_dist={'max_depth':np.arange(1,100,1),'criterion':['gini','entropy']}
+dc=DecisionTreeClassifier(random_state=2)
+cv=GridSearchCV(dc,param_dist,cv=5)
+cv.fit(x_train,y_train)
+print(cv.best_params_)
+print(cv.best_score_)
